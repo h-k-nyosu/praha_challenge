@@ -66,12 +66,12 @@ CREATE TABLE IF NOT EXISTS order_details
   `item_id`    INT NOT NULL COMMENT "商品ID",
   `quantity`   INT NOT NULL COMMENT "数量",
   `has_wasabi` BOOLEAN NOT NULL DEFAULT TRUE COMMENT "わさび有り",
-  `rise_size_id` INT NOT NULL COMMENT "シャリサイズID",    
+  `rice_size_id` INT NOT NULL COMMENT "シャリサイズID",    
   `created_at` TIMESTAMP DEFAULT current_timestamp,
   `updated_at` TIMESTAMP DEFAULT current_timestamp ON UPDATE current_timestamp,
   FOREIGN KEY  (`order_id`) REFERENCES orders(`id`),
   FOREIGN KEY  (`item_id`) REFERENCES items(`id`),
-  FOREIGN KEY  (`rise_size_id`) REFERENCES rice_sizes(`id`)
+  FOREIGN KEY  (`rice_size_id`) REFERENCES rice_sizes(`id`)
 );
 
 
