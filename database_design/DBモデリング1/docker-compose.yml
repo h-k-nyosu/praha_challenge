@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: mysql_host
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sushi
+      MYSQL_USER: user
+      MYSQL_PASSWORD: p@ssw0rd
+      TZ: 'Asia/Tokyo'
+    volumes:
+    - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./docker/db/sql:/docker-entrypoint-initdb.d
+    ports:
+    - 3306:3306
