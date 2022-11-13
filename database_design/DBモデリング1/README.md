@@ -111,5 +111,100 @@ GROUP BY
 <br>
 
 ## 回答4
+MySQLのコンテナを作成し、回答3で記載したER図のもとにDB構築を行った。
+
+### 前提
+- docker composeが利用できる環境である
+
+### 手順
+
+1. イメージのインストールとコンテナ構築を行う
+```sh
+docker compose up -d
+```
+
+2. コンテナに入る
+```sh
+docker compose exec db bash
+```
+
+3. MySQLに接続する
 
 
+```sh
+mysql -u user -p
+>Enter Password:p@ssw0rd
+
+use sushi;
+```
+
+4. 各種テーブルを確認
+
+- 下記のクエリを実行すると、各種テーブルを確認することができる。
+
+```sql
+show tables;
+
+SELECT * FROM users;
+
+SELECT * FROM items;
+
+SELECT * FROM orders;
+
+SELECT * FROM order_groups;
+
+SELECT * FROM primary_groups;
+
+SELECT * FROM secondary_groups;
+
+SELECT * FROM rice_sizes;
+```
+
+
+5. 実際の利用を想定したクエリ
+
+- 「セット商品以外の寿司ネタがどれくらい売れているかを知りたい」というデータ分析のケースを想定する。
+
+```sql
+SELECT
+    items.name as item_name
+    ,SUM(od.quantity) as total_quantity
+FROM
+    order_details as od
+    INNER JOIN items
+    ON od.item_id = items.id
+WHERE
+    items.primary_group_id != 1
+GROUP BY
+    items.name
+;
+```
+
+
+出力結果
+```
++--------------------+----------------+
+| item_name          | total_quantity |
++--------------------+----------------+
+| あじ               |              3 |
+| いかの塩辛         |              9 |
+| えんがわ           |             14 |
+| オクラ軍艦         |              2 |
+| おしんこ巻         |              5 |
+| かにみそ軍艦       |              7 |
+| コーン             |              5 |
+| ずわいがに         |              2 |
+| ツナサラダ         |              3 |
+| とびっこ           |             11 |
+| ねぎとろ           |              5 |
+| ホタテ貝           |              9 |
+| まぐろづくし       |              9 |
+| ゆでげそ           |             16 |
+| 特大海老           |             13 |
+| 玉子               |              1 |
+| 生たこ             |             18 |
+| 白身づくし         |             12 |
+| 真鯛               |             16 |
+| 穴子               |             14 |
++--------------------+----------------+
+```
