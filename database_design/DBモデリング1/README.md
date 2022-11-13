@@ -133,9 +133,8 @@ docker compose exec db bash
 
 ```sh
 mysql -u user -p
->Enter Password:p@ssw0rd
 
-use sushi;
+>Enter Password:p@ssw0rd
 ```
 
 4. 各種テーブルを確認
@@ -143,6 +142,8 @@ use sushi;
 - 下記のクエリを実行すると、各種テーブルを確認することができる。
 
 ```sql
+use sushi;
+
 show tables;
 
 SELECT * FROM users;
