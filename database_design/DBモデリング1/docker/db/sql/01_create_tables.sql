@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS items
 CREATE TABLE IF NOT EXISTS orders
 (
   `id`         BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT "注文ID",
-  `user_id`    BIGINT NOT NULL COMMENT "会員ID",
+  `user_id`    BIGINT COMMENT "会員ID",
   `amount`     INT NOT NULL COMMENT "合計金額",
   `created_at` TIMESTAMP DEFAULT current_timestamp,
   `updated_at` TIMESTAMP DEFAULT current_timestamp ON UPDATE current_timestamp,
