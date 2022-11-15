@@ -123,46 +123,18 @@ MySQLのコンテナを作成し、回答3で記載したER図のもとにDB構�
 docker compose up -d
 ```
 
-2. コンテナに入る
-```sh
-docker compose exec db bash
-```
 
-3. MySQLに接続する
+2. phpMyAdminにアクセスする
 
+- 下記に接続
 
-```sh
-mysql -u user -p
-
->Enter Password:p@ssw0rd
-```
-
-4. 各種テーブルを確認
-
-- 下記のクエリを実行すると、各種テーブルを確認することができる。
-
-```sql
-use sushi;
-
-show tables;
-
-SELECT * FROM users;
-
-SELECT * FROM items;
-
-SELECT * FROM orders;
-
-SELECT * FROM order_groups;
-
-SELECT * FROM primary_groups;
-
-SELECT * FROM secondary_groups;
-
-SELECT * FROM rice_sizes;
-```
+http://localhost:8080/
 
 
-5. 実際の利用を想定したクエリ
+
+3. 実際の利用を想定したクエリを実行する
+
+- sushi データベースにアクセスし、画面上部にあるSQLタブからSQLクエリを実行できる
 
 - 「セット商品以外の寿司ネタがどれくらい売れているかを知りたい」というデータ分析のケースを想定する。
 
