@@ -1,7 +1,7 @@
 ## 回答1
 次のようなスキーマを考えました。
 
-<img src="images/database_design_model_1_1_er.jpeg" width="600px">
+<img src="images/database_design_model_1_1_er.jpeg" width="900px">
 
  - 会員テーブル
    - 1会員1行のデータが追加される
@@ -64,7 +64,7 @@
  - 新たにシャリサイズマスタテーブルを作成する（ex. {シャリサイズID: 1, 名前: 大}）
  - 注文詳細テーブルにシャリサイズIDをカラムに追加する
 
-<img src="images/database_design_model_1_2_er.jpeg" width="600px">
+<img src="images/database_design_model_1_2_er.jpeg" width="900px">
 
 意図
  - なぜ注文詳細テーブルに、is_bigみたいなbooleanのカラムを追加しなかったのか
@@ -114,7 +114,7 @@ GROUP BY
     - 新たに会員テーブルを作る
     - 注文テーブルに会員IDカラムを追加する
 
-<img src="images/database_design_model_1_3_er.jpeg" width="600px">
+<img src="images/database_design_model_1_3_er.jpeg" width="900px">
 
 <br>
 
