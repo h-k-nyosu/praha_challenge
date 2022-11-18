@@ -126,7 +126,7 @@ GROUP BY
   - 水色で記載した箇所が追加設計部分になります
     - 注文テーブルに購入予定日を追加することで管理します
     - 予約注文ではない場合は、注文日時と購入日時を同じ時間として格納します
-<img src="images/database_design_model_1_3_er.jpeg" width="900px">
+<img src="images/database_design_model_1_3_er_new.jpeg" width="900px">
 
 <br>
 
