@@ -108,12 +108,14 @@ CREATE TABLE IF NOT EXISTS order_details (
 
 CREATE TABLE IF NOT EXISTS purchases (
     `purchase_id` BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT "購入ID",
-    `user_id` BIGINT COMMENT "会員ID",
+    `order_id` BIGINT NOT NULL COMMENT "注文ID",
+    `user_id` BIGINT NOT NULL COMMENT "会員ID",
     `user_coupon_id` BIGINT COMMENT "所持クーポンID",
     `total` INT NOT NULL COMMENT "合計金額",
     `purchased_at` DATETIME NOT NULL COMMENT "購入日時",
     `created_at` DATETIME DEFAULT current_timestamp,
     `updated_at` DATETIME DEFAULT current_timestamp ON UPDATE current_timestamp,
+    FOREIGN KEY (`order_id`) REFERENCES orders (`order_id`),
     FOREIGN KEY (`user_id`) REFERENCES users (`user_id`),
     FOREIGN KEY (`user_coupon_id`) REFERENCES users_coupons (`user_coupon_id`)
 );

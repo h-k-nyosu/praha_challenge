@@ -94,10 +94,8 @@ FROM
             *
         FROM
             商品マスタ
-            LEFT JOIN 商品カテゴリマスタ
-            ON 商品マスタ.商品カテゴリID = 商品カテゴリマスタ.商品カテゴリID
-            LEFT JOIN 商品カテゴリタイプマスタ
-            ON 商品カテゴリマスタ.商品カテゴリタイプID = 商品カテゴリタイプマスタ.商品カテゴリタイプID
+            LEFT JOIN 商品カテゴリマスタ USING(商品カテゴリID)
+            LEFT JOIN 商品カテゴリタイプマスタ USING(商品カテゴリタイプID)
         WHERE
             商品カテゴリタイプID = お好みすしの商品カテゴリタイプIDID
     ) as "商品テーブル"
@@ -126,7 +124,8 @@ GROUP BY
   - 水色で記載した箇所が追加設計部分になります
     - 新しく購入予約テーブルを作り、注文テーブルと紐づける
     - 予約注文の場合のみ、このテーブルにデータが追加される
-<img src="images/database_design_model_1_3_new_er.jpeg" width="900px">
+
+<img src="images/database_design_model_1_3_er.jpeg" width="900px">
 
 <br>
 
@@ -154,52 +153,64 @@ http://localhost:8080/
 
 3. 実際の利用を想定したクエリを実行する
 
-- sushi データベースにアクセスし、画面上部にあるSQLタブからSQLクエリを実行できる
+sushi データベースにアクセスし、画面上部にあるSQLタブからSQLクエリを実行できる
 
-- 「セット商品以外の寿司ネタがどれくらい売れているかを知りたい」というデータ分析のケースを想定する。
+
+#### 3-1. 「セット商品以外の寿司ネタがどれくらい売れているかを知りたい」というデータ分析のケースを想定する。
 
 ```sql
 SELECT
-    items.name as item_name
-    ,SUM(od.quantity) as total_quantity
+	i.item_name,
+    SUM(od.quantity) as 合計販売個数
 FROM
-    order_details as od
-    INNER JOIN items
-    ON od.item_id = items.id
+	order_details as od
+    LEFT JOIN items as i
+    ON od.item_id = i.item_id 
+    LEFT JOIN item_categories as ic
+    ON i.category_id = ic.category_id
+    LEFT JOIN item_category_types as ict
+    ON ic.category_type_id = ict.category_type_id
 WHERE
-    items.primary_group_id != 1
+	ict.category_type_id = 2
 GROUP BY
-    items.name
+	i.item_name
 ORDER BY
-    SUM(od.quantity) DESC
+	SUM(od.quantity) DESC;
+```
+
+
+#### 3-2. 「現在注文受付中ステータスの注文一覧を把握して、何日に何を用意すれば良いのかを把握したい」というデータ可視化のケースを想定する。
+
+```sql
+SELECT
+	o.order_id as "注文ID",
+    pr.purchase_reservation_at as "購入予定日",
+    i.item_name as "商品名",
+    wo.wasabi_option_name as "わさびオプション",
+    rs.size as "サイズ",
+    od.quantity as "個数"
+FROM
+	(
+        SELECT
+        	*
+        FROM
+        	orders
+        WHERE
+        	orders.order_status_id = 1
+    ) as o
+    LEFT JOIN order_details as od
+    ON o.order_id = od.order_id
+    LEFT JOIN purchase_reservations as pr
+    ON o.order_id = pr.order_id
+    LEFT JOIN items as i
+    ON od.item_id = i.item_id
+    LEFT JOIN wasabi_options as wo
+    ON od.wasabi_option_id = wo.wasabi_option_id
+    LEFT JOIN rice_sizes as rs
+    ON od.rice_size_id = rs.rice_size_id
+WHERE
+	pr.purchase_reservation_at >= CURRENT_DATE()
+ORDER BY
+	pr.purchase_reservation_at ASC
 ;
-```
-
-
-出力結果
-```
-+--------------------+----------------+
-| item_name          | total_quantity |
-+--------------------+----------------+
-| 生たこ             |             18 |
-| 真鯛               |             16 |
-| ゆでげそ           |             16 |
-| 穴子               |             14 |
-| えんがわ           |             14 |
-| 特大海老           |             13 |
-| 白身づくし         |             12 |
-| とびっこ           |             11 |
-| いかの塩辛         |              9 |
-| ホタテ貝           |              9 |
-| まぐろづくし       |              9 |
-| かにみそ軍艦       |              7 |
-| ねぎとろ           |              5 |
-| おしんこ巻         |              5 |
-| コーン             |              5 |
-| あじ               |              3 |
-| ツナサラダ         |              3 |
-| ずわいがに         |              2 |
-| オクラ軍艦         |              2 |
-| 玉子               |              1 |
-+--------------------+----------------+
 ```
