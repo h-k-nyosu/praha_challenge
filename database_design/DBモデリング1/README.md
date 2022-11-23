@@ -126,7 +126,7 @@ GROUP BY
   - 水色で記載した箇所が追加設計部分になります
     - 新しく購入予約テーブルを作り、注文テーブルと紐づける
     - 予約注文の場合のみ、このテーブルにデータが追加される
-<img src="images/database_design_model_1_3_er.jpeg" width="900px">
+<img src="images/database_design_model_1_3_new_er.jpeg" width="900px">
 
 <br>
 
