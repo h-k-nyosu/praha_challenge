@@ -35,15 +35,24 @@ user_details ||--|{ history_user_details: ""
 workspaces ||--o{ users_workspaces: ""
 workspaces ||--o{ channels: ""
 workspaces ||--o{ users: ""
+workspaces ||--o{ workspace_create_events: ""
+workspaces ||--o{ workspace_delete_events: ""
 
+users_workspaces ||--|{ users_workspaces_join_events : ""
+users_workspaces ||--|{ users_workspaces_leave_events : ""
 users_workspaces }o--|| workspace_join_statuses: ""
+
 
 channels ||--o{ users_channels: ""
 channels ||--o{ channel_types: ""
 channels ||--o{ users_channels: ""
 channels ||--o{ messages: ""
+channels ||--o{ channel_create_events: ""
+channels ||--o{ channel_delete_events: ""
 
-users_channels ||--|{ history_users_channels: ""
+
+users_channels ||--|{ users_channels_join_events : ""
+users_channels ||--|{ users_channels_leave_events : ""
 users_channels }o--|| channel_join_statuses: ""
 
 channels {
@@ -51,23 +60,39 @@ channels {
     ULID workspace_id FK "ワークスペースID"
     ULID user_id FK "ユーザーID"
     VARCHAR channel_type FK "チャンネルタイプ"
+    VARCHAR channel_status FK "チャンネルステータス"
     VARCHAR channel_name "チャンネル名"
+}
+
+channel_create_events {
+    ULID channel_id PK "チャンネルID"
     DATETIME created_at "チャンネル作成日"
 }
 
-users_channels {
-    ULID user_id PK "ユーザーID"
+channel_delete_events {
     ULID channel_id PK "チャンネルID"
-    VARCHAR channel_join_status FK "チャンネル参加ステータス"
-    DATETIME joined_at "参加日時"
+    DATETIME deleted_at "チャンネル削除日"
 }
 
-history_users_channels {
-    ULID id PK "ユーザーチャンネル参加履歴ID"
+channel_statuses {
+    VARCHAR channel_status PK "チャンネルステータス"
+}
+
+users_channels {
+    ULID id PK "ユーザーチャンネルID"
     ULID user_id FK "ユーザーID"
     ULID channel_id FK "チャンネルID"
     VARCHAR channel_join_status FK "チャンネル参加ステータス"
+}
+
+users_channels_join_events {
+    ULID users_channels_id PK "ユーザーチャンネルID"
     DATETIME joined_at "参加日時"
+}
+
+users_channels_leave_events {
+    ULID users_channels_id PK "ユーザーチャンネルID"
+    DATETIME left_at "脱退日時"
 }
 
 messages {
@@ -190,14 +215,33 @@ workspaces {
     ULID id PK "ワークスペースID"
     ULID user_id FK "ユーザーID"
     VARCHAR workspace_name "ワークスペース名"
-    DATETIME created_at "作成日時"
+}
+
+workspace_create_events {
+    ULID workspace_id PK "ワークスペースID"
+    DATETIME created_at "ワークスペース作成日"
+}
+
+workspace_delete_events {
+    ULID workspace_id PK "ワークスペースID"
+    DATETIME deleted_at "ワークスペース削除日"
 }
 
 users_workspaces {
-    ULID user_id PK "ユーザーID"
-    ULID workspace_id PK "ワークスペースID"
+    ULID id PK "ユーザーワークスペースID"
+    ULID user_id FK "ユーザーID"
+    ULID workspace_id FK "ワークスペースID"
     VARCHAR workspace_join_status FK "ワークスペース参加ステータス"
+}
+
+users_workspaces_join_events {
+    ULID users_workspaces_id PK "ユーザーワークスペースID"
     DATETIME joined_at "参加日時"
+}
+
+users_workspaces_leave_events {
+    ULID users_workspaces_id PK "ユーザーワークスペースID"
+    DATETIME left_at "脱退日時"
 }
 
 
