@@ -1,10 +1,22 @@
 ## 回答1
 次のようなスキーマを考えました。
 
+
+イミュータブルデータモデリングの概念を少し取り入れたバージョン
+
 ```mermaid
 erDiagram
 
-users ||--o{ workspaces: "1:多 ユーザーとワークスペース作成者"
+messages ||--o{ thread_messages: ""
+messages ||--|{ message_activities: ""
+
+message_activities }o--|| message_acitivity_types: ""
+message_activities ||--|o message_send_schedules: ""
+message_activities ||--|o message_send_events: ""
+message_activities ||--o{ message_edit_events: ""
+message_activities ||--|o message_delete_events: ""
+
+users ||--o{ workspaces: ""
 users ||--o{ channels: ""
 users ||--|| user_details: ""
 users ||--o{ messages: ""
@@ -27,15 +39,6 @@ channels ||--o{ messages: ""
 
 users_channels ||--|{ history_users_channels: ""
 users_channels }o--|| channel_join_statuses: ""
-
-messages ||--o{ thread_messages: ""
-messages ||--|{ message_activities: ""
-
-message_activities }o--|| message_acitivity_types: ""
-message_activities ||--|o message_send_schedules: ""
-message_activities ||--|o message_send_events: ""
-message_activities ||--o{ message_edit_events: ""
-message_activities ||--|o message_delete_events: ""
 
 channels {
     ULID id PK "チャンネルID"
