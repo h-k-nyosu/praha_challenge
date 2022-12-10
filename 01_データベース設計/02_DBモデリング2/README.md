@@ -16,6 +16,12 @@ message_activities ||--|o message_send_events: ""
 message_activities ||--o{ message_edit_events: ""
 message_activities ||--|o message_delete_events: ""
 
+thread_messages ||--|{ thread_message_activities: ""
+thread_message_activities }o--|| thread_message_acitivity_types: ""
+thread_message_activities ||--|o thread_message_send_events: ""
+thread_message_activities ||--o{ thread_message_edit_events: ""
+thread_message_activities ||--|o thread_message_delete_events: ""
+
 users ||--o{ workspaces: ""
 users ||--o{ channels: ""
 users ||--|| user_details: ""
@@ -74,6 +80,7 @@ messages {
 
 message_activities {
     ULID id PK "メッセージアクティビティID"
+    ULID message_id FK "メッセージID"
     VARCHAR acitivity_type FK "アクティビティタイプ"
     DATETIME created_at "アクション日時"
 }
@@ -114,6 +121,36 @@ thread_messages {
     ULID channel_id FK "チャンネルID"
     VARCHAR message_status FK "メッセージステータスID"
     TEXT content "スレッドメッセージステータス"
+}
+
+thread_message_activities {
+    ULID id PK "スレッドメッセージアクティビティID"
+    ULID thread_message_id FK "スレッドメッセージID"
+    VARCHAR acitivity_type FK "アクティビティタイプ"
+    DATETIME created_at "アクション日時"
+}
+
+thread_message_acitivity_types {
+    VARCHAR acitivity_type PK "アクティビティタイプ"
+}
+
+thread_message_send_events {
+    ULID thread_message_activity_id PK "メッセージアクティビティID"
+    ULID thread_message_id FK "スレッドメッセージID"
+    DATETIME sent_at "送信日時"
+}
+
+thread_message_edit_events {
+    ULID thread_message_activity_id PK "メッセージアクティビティID"
+    ULID thread_message_id FK "スレッドメッセージID"
+    TEXT content "メッセージ内容"
+    DATETIME edited_at "編集日時"
+}
+
+thread_message_delete_events {
+    ULID thread_message_activity_id PK "メッセージアクティビティID"
+    ULID thread_message_id FK "スレッドメッセージID"
+    DATETIME deleted_at "削除日時"
 }
 
 channel_types {
