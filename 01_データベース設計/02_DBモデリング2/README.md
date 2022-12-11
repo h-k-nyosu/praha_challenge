@@ -45,6 +45,7 @@ users_workspaces }o--|| workspace_join_statuses: ""
 
 channels ||--o{ users_channels: ""
 channels ||--o{ channel_types: ""
+channels ||--o{ channel_statuses: ""
 channels ||--o{ users_channels: ""
 channels ||--o{ messages: ""
 channels ||--o{ channel_create_events: ""
