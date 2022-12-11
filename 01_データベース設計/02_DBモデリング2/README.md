@@ -4,4 +4,245 @@
 
 イミュータブルデータモデリングの概念を少し取り入れたバージョン
 
-<img src="https://mermaid.ink/svg/pako:eNrVWV1P3EYU_SuWn4mUvvKGCqgojYQSWvXBkmWtB9bNrr2yB9rt7krEblGIEiVSVEVAH0pK-pkmoo1KKVT5McZL9l90_DHjmfGM7V02kIKEsH3v3HPPnbnjOe6pDccE6qwK3HnLWHONtmZrdht4nrEGPKXfv3bN6Smw6QLD1PHtWUVT0S9r1u8p2bVuNKC1YUErtyS21DNl4CCvPuVlJY-6Oux2CkFoxyScQxw9YJu612gCc701th_YADascnLy3IBpwXpOVCQTtAAEnJtmc7RiGtnbAjalBpjSgoGQWfkwGXzOQMBX-RCFmSNib1wUEi7XPeCSqF847h2vYzTyXJnHjaZh26AleIi4iy9QEGhYLbE3vwqYh5KVwtgkF3oFxtSIR5oaYXh4wjQtDzpuVxdB1-w8UBWAoiUfXzKW_DG5ozcQMYW6lTmUFVrnHPvFpPTPHcvOvBWG4jrOLWBsgErvbLnlmJOYHjQgMqUwazYmsry8vFV2zS7byYbiZ6QslLBMMmNJiTBTjFufR1pSoArHkuIQz6w0GKmkMMS8p9kK-vnk46V5xTKV5RvIJAzuhsEPYfBnGDwMg9-W5mMfYpUXHdkvpvavwuA09F-F_nEY7Cb_H3NeyRLNHX5MjP5Cf3O7T-duffjR3C2m-NieART6b0L_IAyeyjzTfCW-COJWEh0NciwbwTbaoOgcPX4YOwwoBtl5w9CJLSppnZ9bWVhZurmgpGOZugGL5mf_fje893j49HkBATMZL4ggHUuMINq-P9o5ECHA8wsHl9RjuV49BoKFJJ6m-Swqn7I1Jh_P12IpX3yC1CoTekaP_Oj-9_VyZdpDj8uCMhuLBlLgeHBc3xQVKuhwx5eBYVrO1NG0wCpMsbz9-nC0uclhIS-I4vLvh0EQ-idJvL8vq-TkpTCtdgGHpMGsLHy2ojQcGyIii07R1jfRy2M-b_qdsAYDof8s7sEouI8SeJL-w6WLR87TlZCI02VfoTMnUaBCU5Z0tdTXPwqDnxDL4oLzL-58X-FALdcDxURgz04MvRz7Xf0y-CZsYUwZX6PNu2dv9s_-uRe93JWQRR1P3qc8EB46BQl46mB09eDrLlIm0TgDXK3zo59He1uSVOX79NVWitnzySZPZ8Cf14XNKO57L-JQwXZ5a66N8FIb-eKNyl4unyjy3GV7vvz0Pya5deYEF4xQVKdkV7MRlAs5U9wP5FIPUwhxuS60UC9SlLpdVq5Cvc_ZvZs2XCan_S9qXd2nGdlEdhijlkjJsXrAKGisjMCPLDTDIQTSQPlpSKhcyJIRBBz34FV5thSUwgVrlgeBi6txdrobPdk_3zkZPfhDcJ4iumVPsLEtVysiiSmRJHLLTI9gdjUUB8_R06Soz5LJ9UIgdnSajh0POdo7efvL4fm3v0aPjghukbZaSVV0-Hz4--vJpZ9LTpTdndCUWiPL62B7uPeaKyUlgIqJmKoMlq8qQohoLVGSlERzZsAy6l0d2DJxSuBUlKgkovaUEHFilYidgmRVkLKrlaWpVHUy6bS8wy5O2GFLvxgUNR7KcAKCxlWeZN8i3hmuUg1KnVHbwEW9xlRn1QSCpsImaANNjcV003DvaOpMen8VvbHctr7KHn1w_Xrny2QUNIaxDp3bXbuhzq4aLQ_MqOsdEy2m7MszuRu_wzjuzfTDdPJ9evAf8SA8wA" style="width:3000px">
+```mermaid
+erDiagram
+
+messages ||--o{ thread_messages: ""
+messages ||--|{ message_activities: ""
+
+message_activities }o--|| message_acitivity_types: ""
+message_activities ||--|o message_send_schedules: ""
+message_activities ||--|o message_send_events: ""
+message_activities ||--o{ message_edit_events: ""
+message_activities ||--|o message_delete_events: ""
+
+thread_messages ||--|{ thread_message_activities: ""
+thread_message_activities }o--|| thread_message_acitivity_types: ""
+thread_message_activities ||--|o thread_message_send_events: ""
+thread_message_activities ||--o{ thread_message_edit_events: ""
+thread_message_activities ||--|o thread_message_delete_events: ""
+
+users ||--o{ workspaces: ""
+users ||--o{ channels: ""
+users ||--|| user_details: ""
+users ||--o{ messages: ""
+users ||--o{ thread_messages: ""
+users ||--o{ users_workspaces: ""
+users ||--o{ users_channels: ""
+
+user_details ||--|{ history_user_details: ""
+
+workspaces ||--o{ users_workspaces: ""
+workspaces ||--o{ channels: ""
+workspaces ||--o{ users: ""
+workspaces ||--o{ workspace_create_events: ""
+workspaces ||--o{ workspace_delete_events: ""
+
+users_workspaces ||--|{ users_workspaces_join_events : ""
+users_workspaces ||--|{ users_workspaces_leave_events : ""
+users_workspaces }o--|| workspace_join_statuses: ""
+
+
+channels ||--o{ users_channels: ""
+channels ||--o{ channel_types: ""
+channels ||--o{ users_channels: ""
+channels ||--o{ messages: ""
+channels ||--o{ channel_create_events: ""
+channels ||--o{ channel_delete_events: ""
+
+
+users_channels ||--|{ users_channels_join_events : ""
+users_channels ||--|{ users_channels_leave_events : ""
+users_channels }o--|| channel_join_statuses: ""
+
+channels {
+    ULID id PK "チャンネルID"
+    ULID workspace_id FK "ワークスペースID"
+    ULID user_id FK "ユーザーID"
+    VARCHAR channel_type FK "チャンネルタイプ"
+    VARCHAR channel_status FK "チャンネルステータス"
+    VARCHAR channel_name "チャンネル名"
+}
+
+channel_create_events {
+    ULID channel_id PK "チャンネルID"
+    DATETIME created_at "チャンネル作成日"
+}
+
+channel_delete_events {
+    ULID channel_id PK "チャンネルID"
+    DATETIME deleted_at "チャンネル削除日"
+}
+
+channel_statuses {
+    VARCHAR channel_status PK "チャンネルステータス"
+}
+
+users_channels {
+    ULID id PK "ユーザーチャンネルID"
+    ULID user_id FK "ユーザーID"
+    ULID channel_id FK "チャンネルID"
+    VARCHAR channel_join_status FK "チャンネル参加ステータス"
+}
+
+users_channels_join_events {
+    ULID users_channels_id PK "ユーザーチャンネルID"
+    DATETIME joined_at "参加日時"
+}
+
+users_channels_leave_events {
+    ULID users_channels_id PK "ユーザーチャンネルID"
+    DATETIME left_at "脱退日時"
+}
+
+messages {
+    ULID id PK "メッセージID"
+    ULID user_id FK "ユーザーID"
+    ULID channel_id FK "チャンネルID"
+    VARCHAR message_status "メッセージステータス"
+    TEXT content "メッセージ内容"
+}
+
+message_activities {
+    ULID id PK "メッセージアクティビティID"
+    ULID message_id FK "メッセージID"
+    VARCHAR acitivity_type FK "アクティビティタイプ"
+    DATETIME created_at "アクション日時"
+}
+
+message_acitivity_types {
+    VARCHAR acitivity_type PK "アクティビティタイプ"
+}
+
+message_send_schedules {
+    ULID message_activity_id PK "メッセージアクティビティID"
+    ULID message_id FK "メッセージID"
+    DATETIME scheduled_at "送信予定日時"
+}
+
+message_send_events {
+    ULID message_activity_id PK "メッセージアクティビティID"
+    ULID message_id FK "メッセージID"
+    DATETIME sent_at "送信日時"
+}
+
+message_edit_events {
+    ULID message_activity_id PK "メッセージアクティビティID"
+    ULID message_id FK "メッセージID"
+    TEXT content "メッセージ内容"
+    DATETIME edited_at "編集日時"
+}
+
+message_delete_events {
+    ULID message_activity_id PK "メッセージアクティビティID"
+    ULID message_id FK "メッセージID"
+    DATETIME deleted_at "削除日時"
+}
+
+thread_messages {
+    ULID id PK "スレッドメッセージID"
+    ULID message_id FK "メッセージID"
+    ULID user_id FK "ユーザーID"
+    ULID channel_id FK "チャンネルID"
+    VARCHAR message_status FK "メッセージステータスID"
+    TEXT content "スレッドメッセージステータス"
+}
+
+thread_message_activities {
+    ULID id PK "スレッドメッセージアクティビティID"
+    ULID thread_message_id FK "スレッドメッセージID"
+    VARCHAR acitivity_type FK "アクティビティタイプ"
+    DATETIME created_at "アクション日時"
+}
+
+thread_message_acitivity_types {
+    VARCHAR acitivity_type PK "アクティビティタイプ"
+}
+
+thread_message_send_events {
+    ULID thread_message_activity_id PK "メッセージアクティビティID"
+    ULID thread_message_id FK "スレッドメッセージID"
+    DATETIME sent_at "送信日時"
+}
+
+thread_message_edit_events {
+    ULID thread_message_activity_id PK "メッセージアクティビティID"
+    ULID thread_message_id FK "スレッドメッセージID"
+    TEXT content "メッセージ内容"
+    DATETIME edited_at "編集日時"
+}
+
+thread_message_delete_events {
+    ULID thread_message_activity_id PK "メッセージアクティビティID"
+    ULID thread_message_id FK "スレッドメッセージID"
+    DATETIME deleted_at "削除日時"
+}
+
+channel_types {
+    VARCHAR channel_type PK "チャンネルタイプ"
+}
+
+workspace_join_statuses {
+    VARCHAR workspace_join_status PK "ワークスペース参加ステータス"
+}
+
+channel_join_statuses {
+    VARCHAR channel_join_status PK "チャンネル参加ステータス"
+}
+
+users {
+    ULID id PK "ユーザーID"
+    DATETIME registered_at "会員登録日時"
+}
+
+user_details {
+    ULID user_id PK "ユーザーID"
+    VARCHAR user_name "ユーザー名"
+    VARCHAR mail "メールアドレス"
+    VARCHAR phone "電話番号"
+}
+
+history_user_details {
+    ULID id PK "ユーザー履歴ID"
+    ULID user_id FK "ユーザーID"
+    VARCHAR user_name "ユーザー名"
+    VARCHAR mail "メールアドレス"
+    VARCHAR phone "電話番号"
+    DATETIME changed_at "変更日時"
+}
+
+workspaces {
+    ULID id PK "ワークスペースID"
+    ULID user_id FK "ユーザーID"
+    VARCHAR workspace_name "ワークスペース名"
+}
+
+workspace_create_events {
+    ULID workspace_id PK "ワークスペースID"
+    DATETIME created_at "ワークスペース作成日"
+}
+
+workspace_delete_events {
+    ULID workspace_id PK "ワークスペースID"
+    DATETIME deleted_at "ワークスペース削除日"
+}
+
+users_workspaces {
+    ULID id PK "ユーザーワークスペースID"
+    ULID user_id FK "ユーザーID"
+    ULID workspace_id FK "ワークスペースID"
+    VARCHAR workspace_join_status FK "ワークスペース参加ステータス"
+}
+
+users_workspaces_join_events {
+    ULID users_workspaces_id PK "ユーザーワークスペースID"
+    DATETIME joined_at "参加日時"
+}
+
+users_workspaces_leave_events {
+    ULID users_workspaces_id PK "ユーザーワークスペースID"
+    DATETIME left_at "脱退日時"
+}
+
+
+```
