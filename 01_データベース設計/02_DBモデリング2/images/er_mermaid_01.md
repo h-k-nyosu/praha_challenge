@@ -300,13 +300,6 @@ workspaces {
     VARCHAR workspace_name "ワークスペース名"
 }
 
-users_workspaces {
-    ULID id PK "ユーザーワークスペースID"
-    ULID user_id FK "ユーザーID"
-    ULID workspace_id FK "ワークスペースID"
-    VARCHAR workspace_join_status FK "ワークスペース参加ステータス"
-}
-
 
 ```
 
