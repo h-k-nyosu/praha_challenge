@@ -373,8 +373,6 @@ users_workspaces_leave_events {
 ```mermaid
 erDiagram
 
-channels ||--o{ thread_messages: ""
-
 users ||--o{ workspaces: ""
 users ||--o{ users_workspaces: ""
 
@@ -450,7 +448,6 @@ users_workspaces_leave_events {
 ```mermaid
 erDiagram
 
-channels ||--o{ thread_messages: ""
 users ||--o{ channels: ""
 users ||--o{ users_channels: ""
 
@@ -462,6 +459,7 @@ channels ||--o{ channel_types: ""
 channels ||--o{ channel_statuses: ""
 channels ||--o{ users_channels: ""
 channels ||--o{ messages: ""
+channels ||--o{ thread_messages: ""
 channels ||--o{ channel_create_events: ""
 channels ||--o{ channel_delete_events: ""
 
@@ -564,9 +562,9 @@ users_workspaces {
 ```mermaid
 erDiagram
 
-channels ||--o{ thread_messages: ""
 messages ||--o{ thread_messages: ""
 messages ||--|{ message_activities: ""
+channels ||--o{ thread_messages: ""
 
 message_activities }o--|| message_acitivity_types: ""
 message_activities ||--|o message_send_schedules: ""
@@ -687,7 +685,7 @@ users {
 
 ```
 
-## スレッドメッセージ
+## スレッドメッセージ周辺
 
 ```mermaid
 erDiagram
