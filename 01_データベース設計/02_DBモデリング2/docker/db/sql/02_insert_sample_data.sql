@@ -67,4 +67,4 @@ VALUES (2, 2, 1, 2, "こんばんは！", "2022-01-01 00:00:00", "2022-01-01 01:
 INSERT INTO thread_messages (`message_id`, `user_id`, `channel_id`, `message_status_id`, `content`, `sent_at`, `deleted_at`)
 VALUES (3, 3, 2, 3, "おはようございます！これは削除されたメッセージです", "2022-01-01 00:00:00", "2022-01-01 02:00:00");
 INSERT INTO thread_messages (`message_id`, `user_id`, `channel_id`, `message_status_id`, `content`, `sent_at`)
-VALUES (3, 3, 2, 1, "おはようございます！", "2022-01-01 00:00:00");
+VALUES (3, 3, 2, 3, "おはようございます！これは編集されたメッセージです", "2022-01-01 00:00:00");
