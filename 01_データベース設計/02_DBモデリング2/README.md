@@ -108,7 +108,7 @@
   - 検索結果のワークスペース一覧には参加ボタンがある
 
 
-フリーワードでワークスペース名が検索でき、合致するものとリスト表示する
+**フリーワードでワークスペース名が検索でき、合致するものとリスト表示する**
 ```sql
 SELECT
     w.id as workspace_id
@@ -131,7 +131,7 @@ WHERE
   - [★] 認証メールが届いて、そのリンクを踏んだらメールアドレスでの会員登録が完了
 
 
-会員登録にあたるメール重複ユーザーの確認
+**会員登録にあたるメール重複ユーザーの確認**
 ```sql
 SELECT
     id
@@ -141,7 +141,7 @@ WHERE
     u.mail == "user6@example.com"
 ```
 
-会員登録
+**会員登録**
 ```sql
 INSERT INTO users (mail) VALUES ("user6@example.com");
 ```
@@ -157,7 +157,7 @@ INSERT INTO users (mail) VALUES ("user6@example.com");
   - 招待メンバーに認証メールを送る
   - [★] 招待メンバーが認証メールを踏むと、会員登録とワークスペース参加者に追加される
 
-ワークスペースが作成される
+**ワークスペースが作成される**
 ```sql
 INSERT INTO workspaces
     (domain_name, workspace_name, workspace_status_id, user_id)
@@ -165,7 +165,7 @@ INSERT INTO workspaces
 ```
 
 
-招待メンバーが認証メールを踏むと、会員登録とワークスペース参加者に追加される
+**招待メンバーが認証メールを踏むと、会員登録とワークスペース参加者に追加される**
 
 ```sql
 /* 会員登録 */
@@ -184,7 +184,7 @@ INSERT INTO users_workspaces
   - [★] 参加ボタンを押すと、ワークスペース参加ユーザーに追加される
   - 参加後はワークスペースのTOPページが表示される
 
-ワークスペース情報が表示される
+**ワークスペース情報が表示される**
 
 この時、表示ステータス（削除されていない）、かつユーザーが未参加のワークスペースの情報をリストで表示する。
 ```sql
@@ -222,7 +222,7 @@ FROM
 ```
 
 
-参加ボタンを押すと、ワークスペース参加ユーザーに追加される
+**参加ボタンを押すと、ワークスペース参加ユーザーに追加される**
 ```sql
 INSERT INTO users_workspaces
     (user_id, workspace_id, workspace_join_status_id)
