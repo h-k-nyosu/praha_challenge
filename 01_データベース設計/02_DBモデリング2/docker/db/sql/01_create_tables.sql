@@ -90,11 +90,6 @@ CREATE TABLE IF NOT EXISTS messages (
     FOREIGN KEY (`message_status_id`) REFERENCES message_statuses (`id`)
 );
 
-CREATE TABLE IF NOT EXISTS thread_message_statuses (
-    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT "スレッドメッセージステータスID",
-    `thread_message_status` VARCHAR(100) NOT NULL COMMENT "スレッドメッセージステータス"
-);
-
 CREATE TABLE IF NOT EXISTS thread_messages (
     `id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT "メッセージID",
     `message_id` BIGINT UNSIGNED NOT NULL COMMENT "メッセージID",

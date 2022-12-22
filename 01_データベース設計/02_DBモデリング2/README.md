@@ -38,10 +38,9 @@
   - チャンネルに招待するユーザを選択する
   - [★] チャンネルが作成される
   - [★] 招待された人がチャンネル参加ユーザーに追加される
-  - [★] チャンネルに招待された旨のメッセージが追加される
 
 - チャンネルに参加する
-  - [★] チャンネル一覧が表示される
+  - [★] ワークスペースのチャンネル一覧が表示される
   - [★] 参加ボタンを押すと、チャンネル参加ユーザーに追加される
 
 - チャンネルに招待する
@@ -269,6 +268,8 @@ FROM
     ) as uc
     LEFT JOIN channels as c
     ON uc.channel_id = c.id
+WHERE
+    c.channel_status_id = 1
 ```
 
 **参加チャンネルの中で、選択されているチャンネルメッセージ内容を表示する**
@@ -319,22 +320,86 @@ ORDER BY
 ;
 ```
 
+---
+
 - チャンネルを作成する
   - チャンネル作成ボタンを押す
   - チャンネル名を入力する
   - チャンネルに招待するユーザを選択する
   - [★] チャンネルが作成される
   - [★] 招待された人がチャンネル参加ユーザーに追加される
-  - [★] チャンネルに招待された旨のメッセージが追加される
+
+**チャンネルが作成される**
+```sql
+INSERT INTO channels (workspace_id, user_id, channel_name, channel_status_id) VALUES (1, 1, "engineering", 1);
+```
+
+**招待された人がチャンネル参加ユーザーに追加される**
+```sql
+INSERT INTO users_channels (user_id, channel_id, channel_join_status_id)VALUES (3, 7, 1);
+```
+
+---
 
 - チャンネルに参加する
-  - [★] チャンネル一覧が表示される
+  - [★] ワークスペースのチャンネル一覧が表示される
   - [★] 参加ボタンを押すと、チャンネル参加ユーザーに追加される
+
+**ワークスペースのチャンネル一覧が表示される**
+```sql
+SELECT
+    c.id
+    ,c.channel_name
+    ,CASE
+        WHEN uc.channel_join_status_id IS NULL THEN "未参加" 
+        WHEN uc.channel_join_status_id = 2 THEN "未参加"
+        ELSE "参加中"
+    END as channel_join_status
+FROM
+    (
+        SELECT
+            tmp_c.id as id
+            ,tmp_c.channel_name as channel_name
+            ,tmp_c.channel_status_id as channel_status_id
+        FROM
+            channels as tmp_c
+        WHERE
+            tmp_c.workspace_id = 1 -- @workspace_id
+    ) as c
+    LEFT JOIN
+    (
+        SELECT
+            tmp_uc.channel_id as channel_id
+            ,tmp_uc.channel_join_status_id as channel_join_status_id
+        FROM
+            users_channels as tmp_uc
+        WHERE
+            tmp_uc.user_id = 1 -- @user_id
+            AND tmp_uc.channel_join_status_id != 1
+    ) as uc
+    ON c.id = uc.channel_id
+WHERE
+    c.channel_status_id = 1
+;
+```
+
+**参加ボタンを押すと、チャンネル参加ユーザーに追加される**
+```sql
+INSERT INTO users_channels (user_id, channel_id, channel_join_status_id)VALUES(1, 7, 1)
+```
+
+---
 
 - チャンネルに招待する
   - 招待するユーザーを選択する
   - [★] 招待された人がチャンネル参加ユーザーに追加される
   - [★] チャンネルに招待された旨のメッセージが追加される
+
+招待された人がチャンネル参加ユーザーに追加される
+```sql
+
+```
+
 
 - メッセージを投稿する
   - メッセージを入力して送信する
