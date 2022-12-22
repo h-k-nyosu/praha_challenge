@@ -236,6 +236,89 @@ INSERT INTO users_workspaces
   - [★] ユーザーが参加しているチャンネル一覧を取得して表示する
   - [★] 参加チャンネルの中で、選択されているチャンネルメッセージ内容を表示する
 
+
+**ユーザーがワークスペース参加者であるかを照合する**
+
+```sql
+SELECT
+    wjs.workspace_join_status
+FROM
+    users_workspaces as uw
+    LEFT JOIN workspace_join_statuses as wjs
+    ON uw.workspace_join_status_id = wjs.id
+WHERE
+    uw.user_id = 1           -- @user_id
+    AND uw.workspace_id = 1  -- @workspace_id
+```
+
+**ユーザーが参加しているチャンネル一覧を取得して表示する**
+
+```sql
+SELECT
+    uc.channel_id
+    ,c.channel_name
+FROM
+    (
+        SELECT
+            tmp_uc.channel_id as channel_id
+        FROM
+            users_channels as tmp_uc
+        WHERE
+            tmp_uc.user_id = 1 -- @user_id
+            AND tmp_uc.channel_join_status_id = 1
+    ) as uc
+    LEFT JOIN channels as c
+    ON uc.channel_id = c.id
+```
+
+**参加チャンネルの中で、選択されているチャンネルメッセージ内容を表示する**
+
+```sql
+SELECT
+    m.id as message_id
+    ,m.user_id as user_id
+    ,m.content as content
+    ,m.sent_at as sent_at
+    ,m.edited_at as edited_at
+    ,m.deleted_at as deleted_at
+    ,m.message_status_id as message_status_id
+    ,count_tm.count_thread_messages as count_thread_messages
+FROM
+    (
+        SELECT
+            tmp_m.id as id
+            ,tmp_m.user_id as user_id
+            ,tmp_m.content as content
+            ,tmp_m.sent_at as sent_at
+            ,tmp_m.edited_at as edited_at
+            ,tmp_m.deleted_at as deleted_at
+            ,tmp_m.message_status_id as message_status_id
+        FROM
+            messages as tmp_m
+        WHERE
+            tmp_m.channel_id = 1 -- @channel_id
+    ) as m
+    LEFT JOIN
+    (
+        SELECT
+            tm.message_id as message_id
+            ,COUNT(tm.id) as count_thread_messages
+        FROM
+            thread_messages as tm
+            LEFT JOIN message_statuses as ms
+            ON tm.message_status_id = ms.id
+        WHERE
+            tm.channel_id = 1 -- @channel_id
+            ms.message_status in ("送信済み", "編集済み")
+        GROUP BY
+            tm.message_id
+    ) as count_tm
+    ON m.id = count_tm.message_id
+ORDER BY
+    m.sent_at DESC
+;
+```
+
 - チャンネルを作成する
   - チャンネル作成ボタンを押す
   - チャンネル名を入力する

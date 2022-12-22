@@ -38,8 +38,17 @@ INSERT INTO channels (workspace_id, user_id, channel_name, channel_status_id) VA
 INSERT INTO channels (workspace_id, user_id, channel_name, channel_status_id) VALUES (3, 2, "hr", 1);
 
 -- users_channels
-INSERT INTO channel_join_statuses (id, channel_join_status) VALUES (1, "参加中");
-INSERT INTO channel_join_statuses (id, channel_join_status) VALUES (2, "脱退済み");
+INSERT INTO users_channels (user_id, channel_id, channel_join_status_id)VALUES
+(1, 1, 1),
+(2, 1, 1),
+(3, 1, 2),
+(4, 2, 1),
+(5, 3, 1),
+(1, 4, 1),
+(2, 5, 2),
+(3, 5, 1),
+(4, 5, 1),
+(5, 5, 1);
 
 -- message_statuses
 INSERT INTO message_statuses (id, message_status) VALUES (1, "送信済み");
