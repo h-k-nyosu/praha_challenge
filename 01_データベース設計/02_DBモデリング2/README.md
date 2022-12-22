@@ -99,6 +99,19 @@
 
 ### ユースケース毎のクエリ
 
+```sh
+cd 01_データベース設計/02_DBモデリング2
+
+docker compose up -d
+```
+
+
+PHPMyAdminでクエリを叩けます。
+http://localhost:8080/
+
+
+
+
 **- ワークスペースを検索する**
   - [★] フリーワードでワークスペース名が検索でき、合致するものとリスト表示する
   - 検索結果のワークスペース一覧には参加ボタンがある
@@ -303,11 +316,11 @@ FROM
             ,COUNT(tm.id) as count_thread_messages
         FROM
             thread_messages as tm
-            LEFT JOIN message_statuses as ms
-            ON tm.message_status_id = ms.id
+            LEFT JOIN thread_message_statuses as tms
+            ON tm.thread_message_status_id = tms.id
         WHERE
             tm.channel_id = 1 -- @channel_id
-            ms.message_status in ("送信済み", "編集済み")
+            tms.thread_message_status in ("送信済み", "編集済み")
         GROUP BY
             tm.message_id
     ) as count_tm
@@ -550,7 +563,7 @@ FROM
         FROM
             thread_messages as tm
         WHERE
-        	tm.message_status_id = 1
+        	tm.thread_message_status_id = 1
             AND tm.content LIKE '%！%' -- @keyword
     ) as result
     INNER JOIN

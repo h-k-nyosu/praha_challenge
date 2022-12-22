@@ -90,12 +90,17 @@ CREATE TABLE IF NOT EXISTS messages (
     FOREIGN KEY (`message_status_id`) REFERENCES message_statuses (`id`)
 );
 
+CREATE TABLE IF NOT EXISTS thread_message_statuses (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT "メッセージステータスID",
+    `thread_message_status` VARCHAR(100) NOT NULL COMMENT "メッセージステータス"
+);
+
 CREATE TABLE IF NOT EXISTS thread_messages (
     `id` BIGINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT "メッセージID",
     `message_id` BIGINT UNSIGNED NOT NULL COMMENT "メッセージID",
     `user_id` BIGINT UNSIGNED NOT NULL COMMENT "会員ID",
     `channel_id` BIGINT UNSIGNED NOT NULL COMMENT "チャンネルID",
-    `message_status_id` INT NOT NULL COMMENT "メッセージステータスID",
+    `thread_message_status_id` INT NOT NULL COMMENT "メッセージステータスID",
     `content` TEXT NOT NULL COMMENT "メッセージ内容",
     `sent_at` DATETIME DEFAULT '1900-01-01 00:00:00',
     `edited_at` DATETIME DEFAULT '1900-01-01 00:00:00',
@@ -103,5 +108,5 @@ CREATE TABLE IF NOT EXISTS thread_messages (
     FOREIGN KEY (`message_id`) REFERENCES messages (`id`),
     FOREIGN KEY (`user_id`) REFERENCES users (`id`),
     FOREIGN KEY (`channel_id`) REFERENCES channels (`id`),
-    FOREIGN KEY (`message_status_id`) REFERENCES message_statuses (`id`)
+    FOREIGN KEY (`thread_message_status_id`) REFERENCES thread_message_statuses (`id`)
 );
