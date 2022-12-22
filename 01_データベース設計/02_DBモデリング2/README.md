@@ -1,7 +1,5 @@
-## 回答1
-
 ### 前提
-次のようなユースケースの範囲で、チャットアプリのテーブル設計をしていきます。
+次のようなユースケースの範囲で、Slackのようなチャットアプリのテーブル設計をしていきます。
 
 [★] は、DBとのやりとりが必要となるステップです。
 
@@ -118,7 +116,7 @@ FROM
     ON w.workspace_status_id = ws.id
 WHERE
     ws.workspace_status = "表示"
-    AND w.workspace_name LIKE "%keyword%"
+    AND w.workspace_name LIKE "%work%" -- @keyword
 
 ```
 
@@ -158,8 +156,8 @@ INSERT INTO users (mail) VALUES ("user6@example.com");
 **ワークスペースが作成される**
 ```sql
 INSERT INTO workspaces
-    (domain_name, workspace_name, workspace_status_id, user_id)
-    VALUES ("confirm-usecases", "usecases", 1, 6);
+    (domain_name, workspace_name, user_id)
+    VALUES ("confirm-usecases", "usecases", 6);
 ```
 
 
@@ -170,9 +168,7 @@ INSERT INTO workspaces
 INSERT INTO users (mail) VALUES ("user7@example.com");
 
 /* 招待者が認証メールを踏むと、ワークスペース参加者に追加 */
-INSERT INTO users_workspaces
-    (user_id, workspace_id, workspace_join_status_id)
-    VALUES (7, 4, 1);
+INSERT INTO users_workspaces (user_id, workspace_id) VALUES (7, 4);
 ```
 
 ---
@@ -226,9 +222,7 @@ FROM
 
 **参加ボタンを押すと、ワークスペース参加ユーザーに追加される**
 ```sql
-INSERT INTO users_workspaces
-    (user_id, workspace_id, workspace_join_status_id)
-    VALUES (1, 1, 1);
+INSERT INTO users_workspaces (user_id, workspace_id) VALUES (1, 1);
 ```
 
 ---
@@ -334,12 +328,12 @@ ORDER BY
 
 **チャンネルが作成される**
 ```sql
-INSERT INTO channels (workspace_id, user_id, channel_name, channel_status_id) VALUES (1, 1, "engineering", 1);
+INSERT INTO channels (workspace_id, user_id, channel_name) VALUES (1, 1, "engineering");
 ```
 
 **招待された人がチャンネル参加ユーザーに追加される**
 ```sql
-INSERT INTO users_channels (user_id, channel_id, channel_join_status_id)VALUES (3, 7, 1);
+INSERT INTO users_channels (user_id, channel_id)VALUES (3, 7);
 ```
 
 ---
@@ -388,7 +382,7 @@ WHERE
 
 **参加ボタンを押すと、チャンネル参加ユーザーに追加される**
 ```sql
-INSERT INTO users_channels (user_id, channel_id, channel_join_status_id)VALUES(1, 7, 1)
+INSERT INTO users_channels (user_id, channel_id) VALUES (1, 7)
 ```
 
 ---
@@ -399,7 +393,7 @@ INSERT INTO users_channels (user_id, channel_id, channel_join_status_id)VALUES(1
 
 **招待された人がチャンネル参加ユーザーに追加される**
 ```sql
-INSERT INTO users_channels (user_id, channel_id, channel_join_status_id)VALUES (3, 7, 1)
+INSERT INTO users_channels (user_id, channel_id) VALUES (3, 7)
 ```
 
 ---
