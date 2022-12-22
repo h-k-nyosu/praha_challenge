@@ -524,5 +524,53 @@ WHERE user_id = 1 AND channel_id = 7;
 
 **そのワークスペースの参加チャンネルの中で、フリーワードを含むメッセージとスレッドメッセージを取得する**
 ```sql
-
+SELECT
+    result.id as id
+    ,c.channel_name as channel_name
+    ,result.user_id as user_id
+    ,result.content as content
+    ,result.sent_at as sent_at
+FROM
+    (
+        SELECT
+        	m.channel_id as channel_id
+            ,m.id as id
+            ,m.user_id as user_id
+            ,content as content
+            ,m.sent_at as sent_at
+        FROM
+            messages as m
+        WHERE
+        	m.message_status_id = 1
+            AND content LIKE '%！%'
+        UNION
+        SELECT
+        	tm.channel_id as channel_id
+            ,CONCAT(tm.channel_id, "/", tm.id) as id
+            ,tm.user_id as user_id
+            ,tm.content as content
+            ,tm.sent_at as sent_at
+        FROM
+            thread_messages as tm
+        WHERE
+        	tm.message_status_id = 1
+            AND tm.content LIKE '%！%'
+    ) as result
+    INNER JOIN
+        (
+            SELECT
+                tmp_uc.channel_id as channel_id
+                ,tmp_uc.channel_join_status_id as channel_join_status_id
+            FROM
+                users_channels as tmp_uc
+            WHERE
+                tmp_uc.user_id = 1
+                AND tmp_uc.channel_join_status_id = 1
+         ) as uc
+    ON result.channel_id = uc.channel_id
+    LEFT JOIN channels as c
+    ON uc.channel_id = c.id
+ORDER BY
+    result.sent_at DESC
+;
 ```
