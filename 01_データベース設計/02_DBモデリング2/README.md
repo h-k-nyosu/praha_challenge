@@ -584,3 +584,12 @@ ORDER BY
     result.sent_at DESC
 ;
 ```
+
+
+---
+
+### おまけ
+
+イミュータブルデータモデルに則って作成したER図
+
+<img src="./images/db_modeling2_01_imutable.svg" style="width:2000px">
