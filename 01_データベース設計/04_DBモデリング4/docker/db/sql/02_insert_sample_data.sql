@@ -12,7 +12,7 @@ INSERT INTO task_statuses (id, status) VALUES (2, '完了');
 
 
 -- tasks
-INSERT INTO tasks (id, content, created_by, reminder_time, remind_interval, status_id) 
+INSERT INTO tasks (id, content, created_by, remind_time, remind_interval, status_id) 
 VALUES
 ('7749f499-d4ca-4d03-9da1-8e7a8242ee6d' ,'Finish the report', 'bf948a6f-a8f0-fc9d-cc5a-975950359661', '2023-02-01 11:00:00', '1 hour', 1),
 ('4dfde1dc-e4fd-4857-92fc-03ee58d4e067' ,'Submit expense form', 'fa5c7639-ce06-6dc2-a662-072b87181e45', '2023-02-02 12:00:00', '2 hours', 1),
