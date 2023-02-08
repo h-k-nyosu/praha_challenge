@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:14
+    container_name: postgres_host
+    environment:
+      POSTGRES_USER: user1
+      POSTGRES_PASSWORD: p@ssw0rd
+      POSTGRES_DB: tenant
+      TZ: 'Asia/Tokyo'
+    volumes:
+    - ./docker/db/data:/var/lib/postgresql/data
+    - ./docker/db/sql:/docker-entrypoint-initdb.d
+    ports:
+    - 5432:5432
+
