@@ -109,11 +109,45 @@ ref：https://speakerdeck.com/hgsgtk/practices-to-write-better-unit-test
 
 # 課題4
 
-## 単体テスト
-[こちらのファイルに関数が記載されています](quote-functions.ts)
+## 単体テストの例題
+
+[こちらのファイル](quote-functions.ts)に関数が記載されています
 
 ```sh
 npm install --dev
 
 npm run test
 ```
+
+## 単体テストのクイズ
+
+### 「アサーション」とは何ですか？
+
+1. テストの成功/失敗を自動的に判定するためのコード
+2. テスト中に出力するログメッセージ
+3. テストケースの中で呼び出される関数
+
+
+### 「モック」とは何ですか？
+
+1. テスト中に、外部リソースへのアクセスをシミュレートするためのオブジェクト
+2. ソースコードの中で使用されるコメントアウトされたコード
+3. テストの失敗が発生した場合に呼び出されるコールバック関数
+
+
+### 「テストカバレッジ」とは何ですか？
+
+1. テストがカバーするソースコードの割合を表す指標
+2. テスト中に発生したエラーや例外の数をカウントする指標
+3. テスト中にログに出力された情報の量を表す指標
+
+
+# 課題5
+
+## OSSからの学び
+
+題材：[React Native Webview](https://github.com/react-native-webview/react-native-webview/blob/master/src/__tests__/WebViewShared-test.js)
+
+- describeでコンポーネント単位でグルーピングし、test関数部分で挙動を言語化されているので、ドキュメントとして機能しているのが伝わった。describeとtest関数の使い分けがよく分からなかったので学びになった。
+- exportできているかレベルからテストするのかと学びになった。また`toMatchSnapshot()`で以前の定数値と比較チェックしていて、これによってテストを修正する必要がない？というのがメリットなのかなと感じた
+- `loadRequest = jest.fn()`を使うことで、関数をモックにし、さらに呼び出す際の引数や、呼び出された回数のチェックもすることができる。`toHaveBeenCalledXXX`がそれに該当する。jest公式ドキュメントは[こちら](https://jestjs.io/ja/docs/expect#tohavebeencalled)
