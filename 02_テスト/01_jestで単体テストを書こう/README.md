@@ -102,3 +102,13 @@ export const sumOfArray = (numbers: number[]): number => {
 
 ref：https://speakerdeck.com/hgsgtk/practices-to-write-better-unit-test
 
+# 課題4
+
+## 単体テスト
+[こちらのファイルに関数が記載されています](quote-functions.ts)
+
+```sh
+npm install --dev
+
+npm run test
+```
